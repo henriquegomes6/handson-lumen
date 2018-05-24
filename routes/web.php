@@ -15,7 +15,12 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'user', 'middleware' => 'auth'], function () use ($router) {
+$router->options('{path:.+}', function () {
+    $response = new \Illuminate\Http\Response();
+    return $response;
+});
+
+$router->group(['prefix' => 'user'], function () use ($router) {
     $router->get('/', ['as' => 'user', 'uses' => 'UserController@listUsers']);
     $router->get('/{id}', 'UserController@getUserById');
     $router->post('/', ['as' => 'user.insert', 'uses' => 'UserController@insertUser']);

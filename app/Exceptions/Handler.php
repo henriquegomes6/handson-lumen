@@ -45,6 +45,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($e instanceof MethodNotAllowedHttpException) {
+            return response()->json('rota nao encontrada', 404);
+        }
+        
         return parent::render($request, $e);
     }
 }
